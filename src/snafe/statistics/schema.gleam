@@ -1,8 +1,8 @@
-import gleam/option.{type Option, None}
-import snafe/statistics/utils
-import gleam/json
 import gleam/dynamic
 import gleam/dynamic/decode
+import gleam/json
+import gleam/option.{type Option, None}
+import snafe/statistics/utils
 
 pub type ApiInfo {
   ApiInfo(
@@ -62,23 +62,19 @@ pub fn school_unit_program_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(
-    SchoolUnitProgram(
-      school_unit_code: school_unit_code,
-      study_path_code: study_path_code,
-      type_of_schooling: type_of_schooling,
-    ),
-  )
+  decode.success(SchoolUnitProgram(
+    school_unit_code: school_unit_code,
+    study_path_code: study_path_code,
+    type_of_schooling: type_of_schooling,
+  ))
 }
 
 pub fn school_unit_program_encode(data: SchoolUnitProgram) {
-  json.object(
-    [
-      #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
-      #("studyPathCode", json.nullable(data.study_path_code, json.string)),
-      #("typeOfSchooling", json.nullable(data.type_of_schooling, json.string))
-    ],
-  )
+  json.object([
+    #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
+    #("studyPathCode", json.nullable(data.study_path_code, json.string)),
+    #("typeOfSchooling", json.nullable(data.type_of_schooling, json.string)),
+  ])
 }
 
 pub fn link_decoder() {
@@ -87,7 +83,11 @@ pub fn link_decoder() {
     None,
     decode.optional(decode.string),
   )
-  use href <- decode.optional_field("href", None, decode.optional(decode.string))
+  use href <- decode.optional_field(
+    "href",
+    None,
+    decode.optional(decode.string),
+  )
   use hreflang <- decode.optional_field(
     "hreflang",
     None,
@@ -98,7 +98,11 @@ pub fn link_decoder() {
     None,
     decode.optional(decode.string),
   )
-  use name <- decode.optional_field("name", None, decode.optional(decode.string))
+  use name <- decode.optional_field(
+    "name",
+    None,
+    decode.optional(decode.string),
+  )
   use profile <- decode.optional_field(
     "profile",
     None,
@@ -115,35 +119,31 @@ pub fn link_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(
-    Link(
-      deprecation: deprecation,
-      href: href,
-      hreflang: hreflang,
-      media: media,
-      name: name,
-      profile: profile,
-      rel: rel,
-      title: title,
-      type_: type_,
-    ),
-  )
+  decode.success(Link(
+    deprecation: deprecation,
+    href: href,
+    hreflang: hreflang,
+    media: media,
+    name: name,
+    profile: profile,
+    rel: rel,
+    title: title,
+    type_: type_,
+  ))
 }
 
 pub fn link_encode(data: Link) {
-  json.object(
-    [
-      #("deprecation", json.nullable(data.deprecation, json.string)),
-      #("href", json.nullable(data.href, json.string)),
-      #("hreflang", json.nullable(data.hreflang, json.string)),
-      #("media", json.nullable(data.media, json.string)),
-      #("name", json.nullable(data.name, json.string)),
-      #("profile", json.nullable(data.profile, json.string)),
-      #("rel", json.nullable(data.rel, json.string)),
-      #("title", json.nullable(data.title, json.string)),
-      #("type", json.nullable(data.type_, json.string))
-    ],
-  )
+  json.object([
+    #("deprecation", json.nullable(data.deprecation, json.string)),
+    #("href", json.nullable(data.href, json.string)),
+    #("hreflang", json.nullable(data.hreflang, json.string)),
+    #("media", json.nullable(data.media, json.string)),
+    #("name", json.nullable(data.name, json.string)),
+    #("profile", json.nullable(data.profile, json.string)),
+    #("rel", json.nullable(data.rel, json.string)),
+    #("title", json.nullable(data.title, json.string)),
+    #("type", json.nullable(data.type_, json.string)),
+  ])
 }
 
 pub fn api_response_decoder() {
@@ -167,26 +167,24 @@ pub fn api_response_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(
-    ApiResponse(body: body, links: links, message: message, status: status),
-  )
+  decode.success(ApiResponse(
+    body: body,
+    links: links,
+    message: message,
+    status: status,
+  ))
 }
 
 pub fn api_response_encode(data: ApiResponse) {
-  json.object(
-    [
-      #(
-        "body",
-        json.nullable(
-          data.body,
-          fn(_) { panic as "Literal object inside field" },
-        ),
-      ),
-      #("links", json.nullable(data.links, json.array(_, link_encode))),
-      #("message", json.nullable(data.message, json.string)),
-      #("status", json.nullable(data.status, json.string))
-    ],
-  )
+  json.object([
+    #(
+      "body",
+      json.nullable(data.body, fn(_) { panic as "Literal object inside field" }),
+    ),
+    #("links", json.nullable(data.links, json.array(_, link_encode))),
+    #("message", json.nullable(data.message, json.string)),
+    #("status", json.nullable(data.status, json.string)),
+  ])
 }
 
 pub fn api_info_decoder() {
@@ -220,27 +218,23 @@ pub fn api_info_decoder() {
     None,
     decode.optional(decode.list(link_decoder())),
   )
-  decode.success(
-    ApiInfo(
-      api_documentation: api_documentation,
-      api_name: api_name,
-      api_released: api_released,
-      api_status: api_status,
-      api_version: api_version,
-      links: links,
-    ),
-  )
+  decode.success(ApiInfo(
+    api_documentation: api_documentation,
+    api_name: api_name,
+    api_released: api_released,
+    api_status: api_status,
+    api_version: api_version,
+    links: links,
+  ))
 }
 
 pub fn api_info_encode(data: ApiInfo) {
-  json.object(
-    [
-      #("apiDocumentation", json.nullable(data.api_documentation, json.string)),
-      #("apiName", json.nullable(data.api_name, json.string)),
-      #("apiReleased", json.nullable(data.api_released, json.string)),
-      #("apiStatus", json.nullable(data.api_status, json.string)),
-      #("apiVersion", json.nullable(data.api_version, json.string)),
-      #("links", json.nullable(data.links, json.array(_, link_encode)))
-    ],
-  )
+  json.object([
+    #("apiDocumentation", json.nullable(data.api_documentation, json.string)),
+    #("apiName", json.nullable(data.api_name, json.string)),
+    #("apiReleased", json.nullable(data.api_released, json.string)),
+    #("apiStatus", json.nullable(data.api_status, json.string)),
+    #("apiVersion", json.nullable(data.api_version, json.string)),
+    #("links", json.nullable(data.links, json.array(_, link_encode))),
+  ])
 }

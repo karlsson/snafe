@@ -36,10 +36,11 @@ pub fn get_pupils_compulsory_school_unit_surveys_by_school_unit_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_pupils_compulsory_school_unit_surveys_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_pupils_compulsory_school_unit_surveys_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -56,10 +57,11 @@ pub fn get_compulsory_school_unit_for_disabled_statistics_by_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_compulsory_school_unit_for_disabled_statistics_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_compulsory_school_unit_for_disabled_statistics_by_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -83,17 +85,18 @@ pub fn get_all_school_units_compact(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_school_units_compact_request(
-    request,
-    type_of_schooling,
-    latitude,
-    longitude,
-    distance,
-    coordinate_system_type,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_school_units_compact_request(
+      request,
+      type_of_schooling,
+      latitude,
+      longitude,
+      distance,
+      coordinate_system_type,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_all_school_units_compact_response(response)),
@@ -110,19 +113,20 @@ pub fn get_all_study_paths_compact_per_unit(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_study_paths_compact_per_unit_request(
-    request,
-    school_unit_code,
-    type_of_schooling,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_study_paths_compact_per_unit_request(
+      request,
+      school_unit_code,
+      type_of_schooling,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_all_study_paths_compact_per_unit_response(response),
-    ),
+    handle_errors(operations.get_all_study_paths_compact_per_unit_response(
+      response,
+    )),
   )
   t.Done(data)
 }
@@ -140,10 +144,11 @@ pub fn get_salsa_statistics_for_compulsory_school_unit_by_id(
   school_unit_id,
 ) {
   let request = base_request(token)
-  let request = operations.get_salsa_statistics_for_compulsory_school_unit_by_id_request(
-    request,
-    school_unit_id,
-  )
+  let request =
+    operations.get_salsa_statistics_for_compulsory_school_unit_by_id_request(
+      request,
+      school_unit_id,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -160,10 +165,11 @@ pub fn get_custodians_pre_school_class_surveys_by_school_unit_code_1(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_pre_school_class_surveys_by_school_unit_code_1_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_pre_school_class_surveys_by_school_unit_code_1_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -177,9 +183,8 @@ pub fn get_custodians_pre_school_class_surveys_by_school_unit_code_1(
 
 pub fn get_national_secondary_for_disabled_average(token) {
   let request = base_request(token)
-  let request = operations.get_national_secondary_for_disabled_average_request(
-    request,
-  )
+  let request =
+    operations.get_national_secondary_for_disabled_average_request(request)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -191,10 +196,8 @@ pub fn get_national_secondary_for_disabled_average(token) {
 
 pub fn get_school_unit_stats_by_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_school_unit_stats_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_school_unit_stats_by_code_request(request, school_unit_code)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_school_unit_stats_by_code_response(response)),
@@ -208,11 +211,12 @@ pub fn get_document_by_school_unit_code_and_type_of_schooling(
   type_of_schooling,
 ) {
   let request = base_request(token)
-  let request = operations.get_document_by_school_unit_code_and_type_of_schooling_request(
-    request,
-    school_unit_code,
-    type_of_schooling,
-  )
+  let request =
+    operations.get_document_by_school_unit_code_and_type_of_schooling_request(
+      request,
+      school_unit_code,
+      type_of_schooling,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -226,10 +230,8 @@ pub fn get_document_by_school_unit_code_and_type_of_schooling(
 
 pub fn get_national_average_for_program(token, program_code) {
   let request = base_request(token)
-  let request = operations.get_national_average_for_program_request(
-    request,
-    program_code,
-  )
+  let request =
+    operations.get_national_average_for_program_request(request, program_code)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_national_average_for_program_response(response)),
@@ -239,15 +241,16 @@ pub fn get_national_average_for_program(token, program_code) {
 
 pub fn get_school_unit_surveys_by_code_1(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_school_unit_surveys_by_code_1_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_school_unit_surveys_by_code_1_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_school_unit_surveys_by_code_1_response(response),
-    ),
+    handle_errors(operations.get_school_unit_surveys_by_code_1_response(
+      response,
+    )),
   )
   t.Done(data)
 }
@@ -257,10 +260,11 @@ pub fn get_pupils_secondary_school_unit_surveys_by_school_unit_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_pupils_secondary_school_unit_surveys_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_pupils_secondary_school_unit_surveys_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -274,10 +278,8 @@ pub fn get_pupils_secondary_school_unit_surveys_by_school_unit_code(
 
 pub fn get_by_school_unit_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_by_school_unit_code_request(request, school_unit_code)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_by_school_unit_code_response(response)),
@@ -290,10 +292,11 @@ pub fn get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -343,25 +346,26 @@ pub fn get_all_1(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_1_request(
-    request,
-    town,
-    execution_condition,
-    geographical_area_code,
-    search_term,
-    instruction_languages,
-    direction_ids,
-    type_of_school,
-    pace_of_study,
-    semester_start_from,
-    county,
-    municipality,
-    distance,
-    recommended_prior_knowledge,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_1_request(
+      request,
+      town,
+      execution_condition,
+      geographical_area_code,
+      search_term,
+      instruction_languages,
+      direction_ids,
+      type_of_school,
+      pace_of_study,
+      semester_start_from,
+      county,
+      municipality,
+      distance,
+      recommended_prior_knowledge,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_all_1_response(response)))
   t.Done(data)
@@ -369,10 +373,11 @@ pub fn get_all_1(
 
 pub fn get_document_by_school_unit_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_document_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_document_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_document_by_school_unit_code_response(response)),
@@ -386,11 +391,12 @@ pub fn get_by_study_path_code_and_school_unit_code(
   study_path_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_by_study_path_code_and_school_unit_code_request(
-    request,
-    school_unit_code,
-    study_path_code,
-  )
+  let request =
+    operations.get_by_study_path_code_and_school_unit_code_request(
+      request,
+      school_unit_code,
+      study_path_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -416,21 +422,22 @@ pub fn get_all(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_request(
-    request,
-    name,
-    type_of_schooling,
-    principal_organizer_type,
-    geographical_area_code,
-    school_years,
-    latitude,
-    longitude,
-    distance,
-    coordinate_system_type,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_request(
+      request,
+      name,
+      type_of_schooling,
+      principal_organizer_type,
+      geographical_area_code,
+      school_years,
+      latitude,
+      longitude,
+      distance,
+      coordinate_system_type,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_all_response(response)))
   t.Done(data)
@@ -438,9 +445,8 @@ pub fn get_all(
 
 pub fn get_national_compulsory_for_disabled_average(token) {
   let request = base_request(token)
-  let request = operations.get_national_compulsory_for_disabled_average_request(
-    request,
-  )
+  let request =
+    operations.get_national_compulsory_for_disabled_average_request(request)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -452,10 +458,11 @@ pub fn get_national_compulsory_for_disabled_average(token) {
 
 pub fn get_school_unit_surveys_by_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_school_unit_surveys_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_school_unit_surveys_by_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_school_unit_surveys_by_code_response(response)),
@@ -468,10 +475,11 @@ pub fn get_custodians_compulsory_school_unit_surveys_by_school_unit_code_1(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_compulsory_school_unit_surveys_by_school_unit_code_1_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_compulsory_school_unit_surveys_by_school_unit_code_1_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -495,17 +503,18 @@ pub fn get_all_study_paths_compact(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_study_paths_compact_request(
-    request,
-    type_of_schooling,
-    latitude,
-    longitude,
-    distance,
-    coordinate_system_type,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_study_paths_compact_request(
+      request,
+      type_of_schooling,
+      latitude,
+      longitude,
+      distance,
+      coordinate_system_type,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_all_study_paths_compact_response(response)),
@@ -525,25 +534,30 @@ pub fn list_vux_type_of_schooling(token) {
 
 pub fn get_compulsory_school_unit_stats_by_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_compulsory_school_unit_stats_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_compulsory_school_unit_stats_by_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_compulsory_school_unit_stats_by_code_response(response),
-    ),
+    handle_errors(operations.get_compulsory_school_unit_stats_by_code_response(
+      response,
+    )),
   )
   t.Done(data)
 }
 
-pub fn get_pre_school_class_school_unit_statistics_by_id(token, school_unit_code) {
+pub fn get_pre_school_class_school_unit_statistics_by_id(
+  token,
+  school_unit_code,
+) {
   let request = base_request(token)
-  let request = operations.get_pre_school_class_school_unit_statistics_by_id_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_pre_school_class_school_unit_statistics_by_id_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -557,14 +571,13 @@ pub fn get_pre_school_class_school_unit_statistics_by_id(token, school_unit_code
 
 pub fn get_school_units_and_geographical_areas(token) {
   let request = base_request(token)
-  let request = operations.get_school_units_and_geographical_areas_request(
-    request,
-  )
+  let request =
+    operations.get_school_units_and_geographical_areas_request(request)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_school_units_and_geographical_areas_response(response),
-    ),
+    handle_errors(operations.get_school_units_and_geographical_areas_response(
+      response,
+    )),
   )
   t.Done(data)
 }
@@ -612,10 +625,11 @@ pub fn get_custodians_pre_school_class_surveys_by_school_unit_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_pre_school_class_surveys_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_pre_school_class_surveys_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -643,13 +657,14 @@ pub fn get_distance_to_school_unit(
   coordinate_system_type coordinate_system_type,
 ) {
   let request = base_request(token)
-  let request = operations.get_distance_to_school_unit_request(
-    request,
-    school_unit_code,
-    latitude,
-    longitude,
-    coordinate_system_type,
-  )
+  let request =
+    operations.get_distance_to_school_unit_request(
+      request,
+      school_unit_code,
+      latitude,
+      longitude,
+      coordinate_system_type,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_distance_to_school_unit_response(response)),
@@ -662,10 +677,11 @@ pub fn get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit_code_1_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_compulsory_school_for_disabled_unit_surveys_by_school_unit_code_1_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -687,9 +703,10 @@ pub fn get_areas(token) {
 
 pub fn get_salsa_statistics_for_all_compulsory_school_units(token) {
   let request = base_request(token)
-  let request = operations.get_salsa_statistics_for_all_compulsory_school_units_request(
-    request,
-  )
+  let request =
+    operations.get_salsa_statistics_for_all_compulsory_school_units_request(
+      request,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -703,12 +720,13 @@ pub fn get_salsa_statistics_for_all_compulsory_school_units(token) {
 
 pub fn get_national_pre_school_class_average(token) {
   let request = base_request(token)
-  let request = operations.get_national_pre_school_class_average_request(request)
+  let request =
+    operations.get_national_pre_school_class_average_request(request)
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_national_pre_school_class_average_response(response),
-    ),
+    handle_errors(operations.get_national_pre_school_class_average_response(
+      response,
+    )),
   )
   t.Done(data)
 }
@@ -729,21 +747,22 @@ pub fn get_all_study_paths(
   size size,
 ) {
   let request = base_request(token)
-  let request = operations.get_all_study_paths_request(
-    request,
-    name,
-    study_path_code,
-    principal_organizer_type,
-    school_orientation,
-    geographical_area_code,
-    type_of_schooling,
-    latitude,
-    longitude,
-    distance,
-    sort,
-    page,
-    size,
-  )
+  let request =
+    operations.get_all_study_paths_request(
+      request,
+      name,
+      study_path_code,
+      principal_organizer_type,
+      school_orientation,
+      geographical_area_code,
+      type_of_schooling,
+      latitude,
+      longitude,
+      distance,
+      sort,
+      page,
+      size,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_all_study_paths_response(response)),
@@ -756,10 +775,11 @@ pub fn get_secondary_school_unit_for_disabled_statistics_by_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_secondary_school_unit_for_disabled_statistics_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_secondary_school_unit_for_disabled_statistics_by_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -793,15 +813,16 @@ pub fn list_programs_and_orientations(token) {
 
 pub fn get_secondary_school_unit_stats_by_code(token, school_unit_code) {
   let request = base_request(token)
-  let request = operations.get_secondary_school_unit_stats_by_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_secondary_school_unit_stats_by_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
-    handle_errors(
-      operations.get_secondary_school_unit_stats_by_code_response(response),
-    ),
+    handle_errors(operations.get_secondary_school_unit_stats_by_code_response(
+      response,
+    )),
   )
   t.Done(data)
 }
@@ -811,10 +832,11 @@ pub fn get_pupils_secondary_school_unit_surveys_by_school_unit_code_1(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_pupils_secondary_school_unit_surveys_by_school_unit_code_1_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_pupils_secondary_school_unit_surveys_by_school_unit_code_1_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(
@@ -831,10 +853,11 @@ pub fn get_custodians_compulsory_school_unit_surveys_by_school_unit_code(
   school_unit_code,
 ) {
   let request = base_request(token)
-  let request = operations.get_custodians_compulsory_school_unit_surveys_by_school_unit_code_request(
-    request,
-    school_unit_code,
-  )
+  let request =
+    operations.get_custodians_compulsory_school_unit_surveys_by_school_unit_code_request(
+      request,
+      school_unit_code,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(

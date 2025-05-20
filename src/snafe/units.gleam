@@ -24,13 +24,12 @@ fn handle_errors(response) {
 
 pub fn get_school_unit(token, school_unit_code, search_date search_date) {
   let request = base_request(token)
-  let request = operations.get_school_unit_request(
-    request,
-    school_unit_code,
-    search_date,
-  )
+  let request =
+    operations.get_school_unit_request(request, school_unit_code, search_date)
   use response <- t.do(t.fetch(request))
-  use data <- t.try(handle_errors(operations.get_school_unit_response(response)))
+  use data <- t.try(
+    handle_errors(operations.get_school_unit_response(response)),
+  )
   t.Done(data)
 }
 
@@ -44,15 +43,16 @@ pub fn get_school_units(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request = operations.get_school_units_request(
-    request,
-    organization_number,
-    school_type,
-    status,
-    municipality_code,
-    school_unit_type,
-    meta_modified_after,
-  )
+  let request =
+    operations.get_school_units_request(
+      request,
+      organization_number,
+      school_type,
+      status,
+      municipality_code,
+      school_unit_type,
+      meta_modified_after,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_school_units_response(response)),
@@ -62,11 +62,8 @@ pub fn get_school_units(
 
 pub fn get_organizer(token, organization_number, search_date search_date) {
   let request = base_request(token)
-  let request = operations.get_organizer_request(
-    request,
-    organization_number,
-    search_date,
-  )
+  let request =
+    operations.get_organizer_request(request, organization_number, search_date)
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_organizer_response(response)))
   t.Done(data)
@@ -78,11 +75,12 @@ pub fn get_organizers(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request = operations.get_organizers_request(
-    request,
-    organizer_type,
-    meta_modified_after,
-  )
+  let request =
+    operations.get_organizers_request(
+      request,
+      organizer_type,
+      meta_modified_after,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_organizers_response(response)))
   t.Done(data)
@@ -94,11 +92,12 @@ pub fn get_education_provider(
   search_date search_date,
 ) {
   let request = base_request(token)
-  let request = operations.get_education_provider_request(
-    request,
-    education_provider_code,
-    search_date,
-  )
+  let request =
+    operations.get_education_provider_request(
+      request,
+      education_provider_code,
+      search_date,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_education_provider_response(response)),
@@ -112,11 +111,12 @@ pub fn get_education_providers(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request = operations.get_education_providers_request(
-    request,
-    grading_rights,
-    meta_modified_after,
-  )
+  let request =
+    operations.get_education_providers_request(
+      request,
+      grading_rights,
+      meta_modified_after,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_education_providers_response(response)),
@@ -131,12 +131,13 @@ pub fn get_contract(
   search_date search_date,
 ) {
   let request = base_request(token)
-  let request = operations.get_contract_request(
-    request,
-    organization_number,
-    education_provider_code,
-    search_date,
-  )
+  let request =
+    operations.get_contract_request(
+      request,
+      organization_number,
+      education_provider_code,
+      search_date,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_contract_response(response)))
   t.Done(data)
@@ -149,12 +150,13 @@ pub fn get_contracts(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request = operations.get_contracts_request(
-    request,
-    organizer_organization_number,
-    education_provider_organization_number,
-    meta_modified_after,
-  )
+  let request =
+    operations.get_contracts_request(
+      request,
+      organizer_organization_number,
+      education_provider_organization_number,
+      meta_modified_after,
+    )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_contracts_response(response)))
   t.Done(data)
