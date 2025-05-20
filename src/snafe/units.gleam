@@ -1,56 +1,36 @@
+//// Get data from the School Unit Registry
+//// Information about School Units, Organizers (Huvudmän)
+
 import gleam/http/request
-import gleam/httpc
-import gleam/option.{None}
-import gleam/result
-import gleam/string
 import midas/task as t
+import snafe/runner
 import snafe/units/operations
 import snafe/units/utils
-import snag
 
-/// Skolverkets server hosting their open API services.
-fn api_host() -> String {
-  "api.skolverket.se"
-}
-
-/// There is no task runner implemented for midas/task yet
-/// so we make a direct call in the example.
-pub fn main() {
-  let request =
-    base_request("")
-    |> operations.get_school_unit_request("68326694", None)
-  use response <- result.try(handle_errors(httpc.send_bits(request)))
-  echo handle_errors(operations.get_school_unit_response(response))
-}
-
-pub fn base_request(_token) {
+/// Create the basic request url and accept header
+fn base_request(_token) {
   request.new()
-  |> request.set_host(api_host())
+  |> request.set_host(runner.api_host())
   |> utils.append_path("/skolenhetsregistret")
   |> request.prepend_header("accept", "application/json")
   |> request.set_body(<<>>)
 }
 
-pub fn handle_errors(response) {
-  case response {
-    Ok(response1) -> Ok(response1)
-    Error(reason) ->
-      snag.new(string.inspect(reason))
-      |> snag.layer("failed to decode")
-      |> Error
-  }
+fn handle_errors(response) {
+  runner.handle_errors(response)
 }
 
 // GENERATED -------------
 
 pub fn get_school_unit(token, school_unit_code, search_date search_date) {
   let request = base_request(token)
-  let request =
-    operations.get_school_unit_request(request, school_unit_code, search_date)
-  use response <- t.do(t.fetch(request))
-  use data <- t.try(
-    handle_errors(operations.get_school_unit_response(response)),
+  let request = operations.get_school_unit_request(
+    request,
+    school_unit_code,
+    search_date,
   )
+  use response <- t.do(t.fetch(request))
+  use data <- t.try(handle_errors(operations.get_school_unit_response(response)))
   t.Done(data)
 }
 
@@ -64,16 +44,15 @@ pub fn get_school_units(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_school_units_request(
-      request,
-      organization_number,
-      school_type,
-      status,
-      municipality_code,
-      school_unit_type,
-      meta_modified_after,
-    )
+  let request = operations.get_school_units_request(
+    request,
+    organization_number,
+    school_type,
+    status,
+    municipality_code,
+    school_unit_type,
+    meta_modified_after,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_school_units_response(response)),
@@ -83,8 +62,11 @@ pub fn get_school_units(
 
 pub fn get_organizer(token, organization_number, search_date search_date) {
   let request = base_request(token)
-  let request =
-    operations.get_organizer_request(request, organization_number, search_date)
+  let request = operations.get_organizer_request(
+    request,
+    organization_number,
+    search_date,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_organizer_response(response)))
   t.Done(data)
@@ -96,12 +78,11 @@ pub fn get_organizers(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_organizers_request(
-      request,
-      organizer_type,
-      meta_modified_after,
-    )
+  let request = operations.get_organizers_request(
+    request,
+    organizer_type,
+    meta_modified_after,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_organizers_response(response)))
   t.Done(data)
@@ -113,12 +94,11 @@ pub fn get_education_provider(
   search_date search_date,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_education_provider_request(
-      request,
-      education_provider_code,
-      search_date,
-    )
+  let request = operations.get_education_provider_request(
+    request,
+    education_provider_code,
+    search_date,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_education_provider_response(response)),
@@ -132,12 +112,11 @@ pub fn get_education_providers(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_education_providers_request(
-      request,
-      grading_rights,
-      meta_modified_after,
-    )
+  let request = operations.get_education_providers_request(
+    request,
+    grading_rights,
+    meta_modified_after,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(
     handle_errors(operations.get_education_providers_response(response)),
@@ -152,13 +131,12 @@ pub fn get_contract(
   search_date search_date,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_contract_request(
-      request,
-      organization_number,
-      education_provider_code,
-      search_date,
-    )
+  let request = operations.get_contract_request(
+    request,
+    organization_number,
+    education_provider_code,
+    search_date,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_contract_response(response)))
   t.Done(data)
@@ -171,13 +149,12 @@ pub fn get_contracts(
   meta_modified_after meta_modified_after,
 ) {
   let request = base_request(token)
-  let request =
-    operations.get_contracts_request(
-      request,
-      organizer_organization_number,
-      education_provider_organization_number,
-      meta_modified_after,
-    )
+  let request = operations.get_contracts_request(
+    request,
+    organizer_organization_number,
+    education_provider_organization_number,
+    meta_modified_after,
+  )
   use response <- t.do(t.fetch(request))
   use data <- t.try(handle_errors(operations.get_contracts_response(response)))
   t.Done(data)

@@ -12,7 +12,6 @@ import gleam/list
 import gleam/string
 import oas/generator
 import simplifile
-import snafe
 import snag
 
 fn spec_name() {
@@ -60,12 +59,13 @@ import gleam/http
 import gleam/http/request
 import gleam/http/response
 import gleam/httpc
+import snafe/runner
 import snafe/units/utils
 
 fn get_yaml() -> Result(String, Nil) {
   let request =
     request.new()
-    |> request.set_host(snafe.api_host())
+    |> request.set_host(runner.api_host())
     |> utils.append_path("/skolenhetsregistret/" <> spec_name() <> ".yaml")
     |> request.prepend_header("accept", "text/plain")
     |> request.set_body(<<>>)

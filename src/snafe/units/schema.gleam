@@ -1,8 +1,8 @@
-import gleam/dynamic
-import gleam/dynamic/decode
-import gleam/json
 import gleam/option.{type Option, None}
 import snafe/units/utils
+import gleam/json
+import gleam/dynamic
+import gleam/dynamic/decode
 
 pub type OrganizerIncluded {
   OrganizerIncluded(
@@ -431,10 +431,7 @@ pub type Errors {
 }
 
 pub type ContractResponseData {
-  ContractResponseData(
-    attributes: Option(List(Contract)),
-    type_: Option(String),
-  )
+  ContractResponseData(attributes: Option(List(Contract)), type_: Option(String))
 }
 
 pub type Contract {
@@ -525,27 +522,31 @@ pub fn contract_info_response_data_relationships_decoder() {
     None,
     decode.optional(school_unit_relation_decoder()),
   )
-  decode.success(ContractInfoResponseDataRelationships(
-    education_provider: education_provider,
-    organizer: organizer,
-    school_unit: school_unit,
-  ))
+  decode.success(
+    ContractInfoResponseDataRelationships(
+      education_provider: education_provider,
+      organizer: organizer,
+      school_unit: school_unit,
+    ),
+  )
 }
 
 pub fn contract_info_response_data_relationships_encode(
   data: ContractInfoResponseDataRelationships,
 ) {
-  json.object([
-    #(
-      "educationProvider",
-      json.nullable(data.education_provider, wrapped_link_encode),
-    ),
-    #("organizer", json.nullable(data.organizer, wrapped_link_encode)),
-    #(
-      "schoolUnit",
-      json.nullable(data.school_unit, school_unit_relation_encode),
-    ),
-  ])
+  json.object(
+    [
+      #(
+        "educationProvider",
+        json.nullable(data.education_provider, wrapped_link_encode),
+      ),
+      #("organizer", json.nullable(data.organizer, wrapped_link_encode)),
+      #(
+        "schoolUnit",
+        json.nullable(data.school_unit, school_unit_relation_encode),
+      )
+    ],
+  )
 }
 
 pub fn related_link_decoder() {
@@ -576,13 +577,15 @@ pub fn school_unit_response_data_decoder() {
 }
 
 pub fn school_unit_response_data_encode(data: SchoolUnitResponseData) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, json.array(_, school_unit_encode)),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, json.array(_, school_unit_encode)),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn region_decoder() {
@@ -600,10 +603,12 @@ pub fn region_decoder() {
 }
 
 pub fn region_encode(data: Region) {
-  json.object([
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #("regionCode", json.nullable(data.region_code, json.string)),
-  ])
+  json.object(
+    [
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #("regionCode", json.nullable(data.region_code, json.string))
+    ],
+  )
 }
 
 pub fn phone_info_decoder() {
@@ -621,13 +626,15 @@ pub fn phone_info_decoder() {
 }
 
 pub fn phone_info_encode(data: PhoneInfo) {
-  json.object([
-    #("phone", json.nullable(data.phone, json.string)),
-    #(
-      "providerType",
-      json.nullable(data.provider_type, code_provider_type_encode),
-    ),
-  ])
+  json.object(
+    [
+      #("phone", json.nullable(data.phone, json.string)),
+      #(
+        "providerType",
+        json.nullable(data.provider_type, code_provider_type_encode),
+      )
+    ],
+  )
 }
 
 pub fn contract_decoder() {
@@ -666,42 +673,46 @@ pub fn contract_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(Contract(
-    education_provider_code: education_provider_code,
-    education_provider_name: education_provider_name,
-    education_provider_organization_number: education_provider_organization_number,
-    folk_highschool_name: folk_highschool_name,
-    organizer_name: organizer_name,
-    organizer_organization_number: organizer_organization_number,
-    status: status,
-  ))
+  decode.success(
+    Contract(
+      education_provider_code: education_provider_code,
+      education_provider_name: education_provider_name,
+      education_provider_organization_number: education_provider_organization_number,
+      folk_highschool_name: folk_highschool_name,
+      organizer_name: organizer_name,
+      organizer_organization_number: organizer_organization_number,
+      status: status,
+    ),
+  )
 }
 
 pub fn contract_encode(data: Contract) {
-  json.object([
-    #(
-      "educationProviderCode",
-      json.nullable(data.education_provider_code, json.string),
-    ),
-    #(
-      "educationProviderName",
-      json.nullable(data.education_provider_name, json.string),
-    ),
-    #(
-      "educationProviderOrganizationNumber",
-      json.nullable(data.education_provider_organization_number, json.string),
-    ),
-    #(
-      "folkHighschoolName",
-      json.nullable(data.folk_highschool_name, json.string),
-    ),
-    #("organizerName", json.nullable(data.organizer_name, json.string)),
-    #(
-      "organizerOrganizationNumber",
-      json.nullable(data.organizer_organization_number, json.string),
-    ),
-    #("status", json.nullable(data.status, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "educationProviderCode",
+        json.nullable(data.education_provider_code, json.string),
+      ),
+      #(
+        "educationProviderName",
+        json.nullable(data.education_provider_name, json.string),
+      ),
+      #(
+        "educationProviderOrganizationNumber",
+        json.nullable(data.education_provider_organization_number, json.string),
+      ),
+      #(
+        "folkHighschoolName",
+        json.nullable(data.folk_highschool_name, json.string),
+      ),
+      #("organizerName", json.nullable(data.organizer_name, json.string)),
+      #(
+        "organizerOrganizationNumber",
+        json.nullable(data.organizer_organization_number, json.string),
+      ),
+      #("status", json.nullable(data.status, json.string))
+    ],
+  )
 }
 
 pub fn contract_response_data_decoder() {
@@ -719,13 +730,15 @@ pub fn contract_response_data_decoder() {
 }
 
 pub fn contract_response_data_encode(data: ContractResponseData) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, json.array(_, contract_encode)),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, json.array(_, contract_encode)),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn errors_decoder() {
@@ -749,21 +762,20 @@ pub fn errors_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(Errors(
-    detail: detail,
-    status: status,
-    title: title,
-    type_: type_,
-  ))
+  decode.success(
+    Errors(detail: detail, status: status, title: title, type_: type_),
+  )
 }
 
 pub fn errors_encode(data: Errors) {
-  json.object([
-    #("detail", json.nullable(data.detail, json.string)),
-    #("status", json.nullable(data.status, json.string)),
-    #("title", json.nullable(data.title, json.string)),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #("detail", json.nullable(data.detail, json.string)),
+      #("status", json.nullable(data.status, json.string)),
+      #("title", json.nullable(data.title, json.string)),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn organization_address_decoder() {
@@ -807,32 +819,36 @@ pub fn organization_address_decoder() {
     None,
     decode.optional(address_type_enum_decoder()),
   )
-  decode.success(OrganizationAddress(
-    care_of_address: care_of_address,
-    continent: continent,
-    country: country,
-    geo_coordinates: geo_coordinates,
-    locality: locality,
-    postal_code: postal_code,
-    street_address: street_address,
-    type_: type_,
-  ))
+  decode.success(
+    OrganizationAddress(
+      care_of_address: care_of_address,
+      continent: continent,
+      country: country,
+      geo_coordinates: geo_coordinates,
+      locality: locality,
+      postal_code: postal_code,
+      street_address: street_address,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn organization_address_encode(data: OrganizationAddress) {
-  json.object([
-    #("careOfAddress", json.nullable(data.care_of_address, json.string)),
-    #("continent", json.nullable(data.continent, json.string)),
-    #("country", json.nullable(data.country, json.string)),
-    #(
-      "geoCoordinates",
-      json.nullable(data.geo_coordinates, geo_coordinates_encode),
-    ),
-    #("locality", json.nullable(data.locality, json.string)),
-    #("postalCode", json.nullable(data.postal_code, json.string)),
-    #("streetAddress", json.nullable(data.street_address, json.string)),
-    #("type", json.nullable(data.type_, address_type_enum_encode)),
-  ])
+  json.object(
+    [
+      #("careOfAddress", json.nullable(data.care_of_address, json.string)),
+      #("continent", json.nullable(data.continent, json.string)),
+      #("country", json.nullable(data.country, json.string)),
+      #(
+        "geoCoordinates",
+        json.nullable(data.geo_coordinates, geo_coordinates_encode),
+      ),
+      #("locality", json.nullable(data.locality, json.string)),
+      #("postalCode", json.nullable(data.postal_code, json.string)),
+      #("streetAddress", json.nullable(data.street_address, json.string)),
+      #("type", json.nullable(data.type_, address_type_enum_encode))
+    ],
+  )
 }
 
 pub fn address_type_enum_decoder() {
@@ -861,9 +877,9 @@ pub fn gr_decoder() {
 }
 
 pub fn gr_encode(data: Gr) {
-  json.object([
-    #("grades", json.nullable(data.grades, json.array(_, json.string))),
-  ])
+  json.object(
+    [#("grades", json.nullable(data.grades, json.array(_, json.string)))],
+  )
 }
 
 pub fn gy_decoder() {
@@ -881,10 +897,12 @@ pub fn gy_decoder() {
 }
 
 pub fn gy_encode(data: Gy) {
-  json.object([
-    #("csnCode", json.nullable(data.csn_code, json.string)),
-    #("programmes", json.nullable(data.programmes, json.array(_, json.string))),
-  ])
+  json.object(
+    [
+      #("csnCode", json.nullable(data.csn_code, json.string)),
+      #("programmes", json.nullable(data.programmes, json.array(_, json.string)))
+    ],
+  )
 }
 
 pub fn code_school_type_part_vux_decoder() {
@@ -921,32 +939,36 @@ pub fn education_provider_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(EducationProvider(
-    display_name: display_name,
-    education_provider_code: education_provider_code,
-    folk_highschool_name: folk_highschool_name,
-    grading_right: grading_right,
-    organization_number: organization_number,
-  ))
+  decode.success(
+    EducationProvider(
+      display_name: display_name,
+      education_provider_code: education_provider_code,
+      folk_highschool_name: folk_highschool_name,
+      grading_right: grading_right,
+      organization_number: organization_number,
+    ),
+  )
 }
 
 pub fn education_provider_encode(data: EducationProvider) {
-  json.object([
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #(
-      "educationProviderCode",
-      json.nullable(data.education_provider_code, json.string),
-    ),
-    #(
-      "folkHighschoolName",
-      json.nullable(data.folk_highschool_name, json.string),
-    ),
-    #("gradingRight", json.nullable(data.grading_right, json.bool)),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-  ])
+  json.object(
+    [
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #(
+        "educationProviderCode",
+        json.nullable(data.education_provider_code, json.string),
+      ),
+      #(
+        "folkHighschoolName",
+        json.nullable(data.folk_highschool_name, json.string),
+      ),
+      #("gradingRight", json.nullable(data.grading_right, json.bool)),
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
+      )
+    ],
+  )
 }
 
 pub fn education_provider_info_response_data_relationships_decoder() {
@@ -955,17 +977,17 @@ pub fn education_provider_info_response_data_relationships_decoder() {
     None,
     decode.optional(org_contract_relation_decoder()),
   )
-  decode.success(EducationProviderInfoResponseDataRelationships(
-    contract: contract,
-  ))
+  decode.success(
+    EducationProviderInfoResponseDataRelationships(contract: contract),
+  )
 }
 
 pub fn education_provider_info_response_data_relationships_encode(
   data: EducationProviderInfoResponseDataRelationships,
 ) {
-  json.object([
-    #("contract", json.nullable(data.contract, org_contract_relation_encode)),
-  ])
+  json.object(
+    [#("contract", json.nullable(data.contract, org_contract_relation_encode))],
+  )
 }
 
 pub fn organizer_info_response_data_relationships_decoder() {
@@ -979,22 +1001,26 @@ pub fn organizer_info_response_data_relationships_decoder() {
     None,
     decode.optional(org_school_unit_relation_decoder()),
   )
-  decode.success(OrganizerInfoResponseDataRelationships(
-    contract: contract,
-    schoolunit: schoolunit,
-  ))
+  decode.success(
+    OrganizerInfoResponseDataRelationships(
+      contract: contract,
+      schoolunit: schoolunit,
+    ),
+  )
 }
 
 pub fn organizer_info_response_data_relationships_encode(
   data: OrganizerInfoResponseDataRelationships,
 ) {
-  json.object([
-    #("contract", json.nullable(data.contract, org_contract_relation_encode)),
-    #(
-      "schoolunit",
-      json.nullable(data.schoolunit, org_school_unit_relation_encode),
-    ),
-  ])
+  json.object(
+    [
+      #("contract", json.nullable(data.contract, org_contract_relation_encode)),
+      #(
+        "schoolunit",
+        json.nullable(data.schoolunit, org_school_unit_relation_encode),
+      )
+    ],
+  )
 }
 
 pub fn code_report_type_decoder() {
@@ -1072,62 +1098,66 @@ pub fn organizer_info_decoder() {
     decode.optional(decode.list(code_school_type_decoder())),
   )
   use url <- decode.optional_field("url", None, decode.optional(decode.string))
-  decode.success(OrganizerInfo(
-    address: address,
-    company_form: company_form,
-    company_status: company_status,
-    display_name: display_name,
-    email: email,
-    high_school_association_id: high_school_association_id,
-    is_international: is_international,
-    legal_entity_status: legal_entity_status,
-    municipalities: municipalities,
-    organizer_type: organizer_type,
-    phone_number: phone_number,
-    regions: regions,
-    school_types: school_types,
-    url: url,
-  ))
+  decode.success(
+    OrganizerInfo(
+      address: address,
+      company_form: company_form,
+      company_status: company_status,
+      display_name: display_name,
+      email: email,
+      high_school_association_id: high_school_association_id,
+      is_international: is_international,
+      legal_entity_status: legal_entity_status,
+      municipalities: municipalities,
+      organizer_type: organizer_type,
+      phone_number: phone_number,
+      regions: regions,
+      school_types: school_types,
+      url: url,
+    ),
+  )
 }
 
 pub fn organizer_info_encode(data: OrganizerInfo) {
-  json.object([
-    #("address", json.nullable(data.address, organization_address_encode)),
-    #("companyForm", json.nullable(data.company_form, company_form_encode)),
-    #(
-      "companyStatus",
-      json.nullable(data.company_status, code_company_status_encode),
-    ),
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #("email", json.nullable(data.email, json.array(_, email_info_encode))),
-    #(
-      "highSchoolAssociationId",
-      json.nullable(data.high_school_association_id, json.string),
-    ),
-    #("isInternational", json.nullable(data.is_international, json.bool)),
-    #(
-      "legalEntityStatus",
-      json.nullable(data.legal_entity_status, code_legal_entity_status_encode),
-    ),
-    #(
-      "municipalities",
-      json.nullable(data.municipalities, json.array(_, municipality_encode)),
-    ),
-    #(
-      "organizerType",
-      json.nullable(data.organizer_type, code_organizer_type_encode),
-    ),
-    #(
-      "phoneNumber",
-      json.nullable(data.phone_number, json.array(_, phone_info_encode)),
-    ),
-    #("regions", json.nullable(data.regions, json.array(_, region_encode))),
-    #(
-      "schoolTypes",
-      json.nullable(data.school_types, json.array(_, code_school_type_encode)),
-    ),
-    #("url", json.nullable(data.url, json.string)),
-  ])
+  json.object(
+    [
+      #("address", json.nullable(data.address, organization_address_encode)),
+      #("companyForm", json.nullable(data.company_form, company_form_encode)),
+      #(
+        "companyStatus",
+        json.nullable(data.company_status, code_company_status_encode),
+      ),
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #("email", json.nullable(data.email, json.array(_, email_info_encode))),
+      #(
+        "highSchoolAssociationId",
+        json.nullable(data.high_school_association_id, json.string),
+      ),
+      #("isInternational", json.nullable(data.is_international, json.bool)),
+      #(
+        "legalEntityStatus",
+        json.nullable(data.legal_entity_status, code_legal_entity_status_encode),
+      ),
+      #(
+        "municipalities",
+        json.nullable(data.municipalities, json.array(_, municipality_encode)),
+      ),
+      #(
+        "organizerType",
+        json.nullable(data.organizer_type, code_organizer_type_encode),
+      ),
+      #(
+        "phoneNumber",
+        json.nullable(data.phone_number, json.array(_, phone_info_encode)),
+      ),
+      #("regions", json.nullable(data.regions, json.array(_, region_encode))),
+      #(
+        "schoolTypes",
+        json.nullable(data.school_types, json.array(_, code_school_type_encode)),
+      ),
+      #("url", json.nullable(data.url, json.string))
+    ],
+  )
 }
 
 pub fn api_info_response_decoder() {
@@ -1161,25 +1191,29 @@ pub fn api_info_response_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(ApiInfoResponse(
-    api_documentation: api_documentation,
-    api_name: api_name,
-    api_publisher: api_publisher,
-    api_released: api_released,
-    api_status: api_status,
-    api_version: api_version,
-  ))
+  decode.success(
+    ApiInfoResponse(
+      api_documentation: api_documentation,
+      api_name: api_name,
+      api_publisher: api_publisher,
+      api_released: api_released,
+      api_status: api_status,
+      api_version: api_version,
+    ),
+  )
 }
 
 pub fn api_info_response_encode(data: ApiInfoResponse) {
-  json.object([
-    #("apiDocumentation", json.nullable(data.api_documentation, json.string)),
-    #("apiName", json.nullable(data.api_name, json.string)),
-    #("apiPublisher", json.nullable(data.api_publisher, json.string)),
-    #("apiReleased", json.nullable(data.api_released, json.string)),
-    #("apiStatus", json.nullable(data.api_status, json.string)),
-    #("apiVersion", json.nullable(data.api_version, json.string)),
-  ])
+  json.object(
+    [
+      #("apiDocumentation", json.nullable(data.api_documentation, json.string)),
+      #("apiName", json.nullable(data.api_name, json.string)),
+      #("apiPublisher", json.nullable(data.api_publisher, json.string)),
+      #("apiReleased", json.nullable(data.api_released, json.string)),
+      #("apiStatus", json.nullable(data.api_status, json.string)),
+      #("apiVersion", json.nullable(data.api_version, json.string))
+    ],
+  )
 }
 
 pub fn school_type_part_info_decoder() {
@@ -1198,22 +1232,26 @@ pub fn school_type_part_info_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(SchoolTypePartInfo(
-    school_type_part: school_type_part,
-    valid_from: valid_from,
-    valid_to: valid_to,
-  ))
+  decode.success(
+    SchoolTypePartInfo(
+      school_type_part: school_type_part,
+      valid_from: valid_from,
+      valid_to: valid_to,
+    ),
+  )
 }
 
 pub fn school_type_part_info_encode(data: SchoolTypePartInfo) {
-  json.object([
-    #(
-      "schoolTypePart",
-      json.nullable(data.school_type_part, code_school_type_part_vux_encode),
-    ),
-    #("validFrom", json.nullable(data.valid_from, json.string)),
-    #("validTo", json.nullable(data.valid_to, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "schoolTypePart",
+        json.nullable(data.school_type_part, code_school_type_part_vux_encode),
+      ),
+      #("validFrom", json.nullable(data.valid_from, json.string)),
+      #("validTo", json.nullable(data.valid_to, json.string))
+    ],
+  )
 }
 
 pub fn municipality_decoder() {
@@ -1227,17 +1265,21 @@ pub fn municipality_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(Municipality(
-    display_name: display_name,
-    municipality_code: municipality_code,
-  ))
+  decode.success(
+    Municipality(
+      display_name: display_name,
+      municipality_code: municipality_code,
+    ),
+  )
 }
 
 pub fn municipality_encode(data: Municipality) {
-  json.object([
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #("municipalityCode", json.nullable(data.municipality_code, json.string)),
-  ])
+  json.object(
+    [
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #("municipalityCode", json.nullable(data.municipality_code, json.string))
+    ],
+  )
 }
 
 pub fn org_contract_relation_decoder() {
@@ -1255,10 +1297,15 @@ pub fn org_contract_relation_decoder() {
 }
 
 pub fn org_contract_relation_encode(data: OrgContractRelation) {
-  json.object([
-    #("data", json.nullable(data.data, json.array(_, org_contract_data_encode))),
-    #("links", json.nullable(data.links, link_with_related_links_encode)),
-  ])
+  json.object(
+    [
+      #(
+        "data",
+        json.nullable(data.data, json.array(_, org_contract_data_encode)),
+      ),
+      #("links", json.nullable(data.links, link_with_related_links_encode))
+    ],
+  )
 }
 
 pub fn organizer_response_decoder() {
@@ -1276,10 +1323,12 @@ pub fn organizer_response_decoder() {
 }
 
 pub fn organizer_response_encode(data: OrganizerResponse) {
-  json.object([
-    #("data", json.nullable(data.data, organizer_response_data_encode)),
-    #("meta", json.nullable(data.meta, meta_extracted_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, organizer_response_data_encode)),
+      #("meta", json.nullable(data.meta, meta_extracted_encode))
+    ],
+  )
 }
 
 pub fn education_provider_response_data_decoder() {
@@ -1293,22 +1342,23 @@ pub fn education_provider_response_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(EducationProviderResponseData(
-    attributes: attributes,
-    type_: type_,
-  ))
+  decode.success(
+    EducationProviderResponseData(attributes: attributes, type_: type_),
+  )
 }
 
 pub fn education_provider_response_data_encode(
   data: EducationProviderResponseData,
 ) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, json.array(_, education_provider_encode)),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, json.array(_, education_provider_encode)),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn contract_response_decoder() {
@@ -1326,10 +1376,12 @@ pub fn contract_response_decoder() {
 }
 
 pub fn contract_response_encode(data: ContractResponse) {
-  json.object([
-    #("data", json.nullable(data.data, contract_response_data_encode)),
-    #("meta", json.nullable(data.meta, meta_extracted_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, contract_response_data_encode)),
+      #("meta", json.nullable(data.meta, meta_extracted_encode))
+    ],
+  )
 }
 
 pub fn education_provider_info_response_decoder() {
@@ -1348,24 +1400,24 @@ pub fn education_provider_info_response_decoder() {
     None,
     decode.optional(meta_decoder()),
   )
-  decode.success(EducationProviderInfoResponse(
-    data: data,
-    links: links,
-    meta: meta,
-  ))
+  decode.success(
+    EducationProviderInfoResponse(data: data, links: links, meta: meta),
+  )
 }
 
 pub fn education_provider_info_response_encode(
   data: EducationProviderInfoResponse,
 ) {
-  json.object([
-    #(
-      "data",
-      json.nullable(data.data, education_provider_info_response_data_encode),
-    ),
-    #("links", json.nullable(data.links, link_encode)),
-    #("meta", json.nullable(data.meta, meta_encode)),
-  ])
+  json.object(
+    [
+      #(
+        "data",
+        json.nullable(data.data, education_provider_info_response_data_encode),
+      ),
+      #("links", json.nullable(data.links, link_encode)),
+      #("meta", json.nullable(data.meta, meta_encode))
+    ],
+  )
 }
 
 pub fn gyan_decoder() {
@@ -1378,9 +1430,9 @@ pub fn gyan_decoder() {
 }
 
 pub fn gyan_encode(data: Gyan) {
-  json.object([
-    #("programmes", json.nullable(data.programmes, json.array(_, json.string))),
-  ])
+  json.object(
+    [#("programmes", json.nullable(data.programmes, json.array(_, json.string)))],
+  )
 }
 
 pub fn education_provider_response_decoder() {
@@ -1398,10 +1450,15 @@ pub fn education_provider_response_decoder() {
 }
 
 pub fn education_provider_response_encode(data: EducationProviderResponse) {
-  json.object([
-    #("data", json.nullable(data.data, education_provider_response_data_encode)),
-    #("meta", json.nullable(data.meta, meta_extracted_encode)),
-  ])
+  json.object(
+    [
+      #(
+        "data",
+        json.nullable(data.data, education_provider_response_data_encode),
+      ),
+      #("meta", json.nullable(data.meta, meta_extracted_encode))
+    ],
+  )
 }
 
 pub fn code_legal_entity_status_decoder() {
@@ -1436,25 +1493,29 @@ pub fn org_contract_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(OrgContractData(
-    education_provider_code: education_provider_code,
-    organization_number: organization_number,
-    type_: type_,
-  ))
+  decode.success(
+    OrgContractData(
+      education_provider_code: education_provider_code,
+      organization_number: organization_number,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn org_contract_data_encode(data: OrgContractData) {
-  json.object([
-    #(
-      "educationProviderCode",
-      json.nullable(data.education_provider_code, json.string),
-    ),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "educationProviderCode",
+        json.nullable(data.education_provider_code, json.string),
+      ),
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn gran_decoder() {
@@ -1467,9 +1528,9 @@ pub fn gran_decoder() {
 }
 
 pub fn gran_encode(data: Gran) {
-  json.object([
-    #("grades", json.nullable(data.grades, json.array(_, json.string))),
-  ])
+  json.object(
+    [#("grades", json.nullable(data.grades, json.array(_, json.string)))],
+  )
 }
 
 pub fn wrapped_link_decoder() {
@@ -1501,27 +1562,31 @@ pub fn school_type_properties_decoder() {
   use sam <- decode.optional_field("sam", None, decode.optional(sam_decoder()))
   use sp <- decode.optional_field("sp", None, decode.optional(sp_decoder()))
   use vux <- decode.optional_field("vux", None, decode.optional(vux_decoder()))
-  decode.success(SchoolTypeProperties(
-    gr: gr,
-    gran: gran,
-    gy: gy,
-    gyan: gyan,
-    sam: sam,
-    sp: sp,
-    vux: vux,
-  ))
+  decode.success(
+    SchoolTypeProperties(
+      gr: gr,
+      gran: gran,
+      gy: gy,
+      gyan: gyan,
+      sam: sam,
+      sp: sp,
+      vux: vux,
+    ),
+  )
 }
 
 pub fn school_type_properties_encode(data: SchoolTypeProperties) {
-  json.object([
-    #("gr", json.nullable(data.gr, gr_encode)),
-    #("gran", json.nullable(data.gran, gran_encode)),
-    #("gy", json.nullable(data.gy, gy_encode)),
-    #("gyan", json.nullable(data.gyan, gyan_encode)),
-    #("sam", json.nullable(data.sam, sam_encode)),
-    #("sp", json.nullable(data.sp, sp_encode)),
-    #("vux", json.nullable(data.vux, vux_encode)),
-  ])
+  json.object(
+    [
+      #("gr", json.nullable(data.gr, gr_encode)),
+      #("gran", json.nullable(data.gran, gran_encode)),
+      #("gy", json.nullable(data.gy, gy_encode)),
+      #("gyan", json.nullable(data.gyan, gyan_encode)),
+      #("sam", json.nullable(data.sam, sam_encode)),
+      #("sp", json.nullable(data.sp, sp_encode)),
+      #("vux", json.nullable(data.vux, vux_encode))
+    ],
+  )
 }
 
 pub fn meta_extracted_decoder() {
@@ -1557,11 +1622,13 @@ pub fn organizer_info_response_decoder() {
 }
 
 pub fn organizer_info_response_encode(data: OrganizerInfoResponse) {
-  json.object([
-    #("data", json.nullable(data.data, organizer_info_response_data_encode)),
-    #("links", json.nullable(data.links, link_encode)),
-    #("meta", json.nullable(data.meta, meta_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, organizer_info_response_data_encode)),
+      #("links", json.nullable(data.links, link_encode)),
+      #("meta", json.nullable(data.meta, meta_encode))
+    ],
+  )
 }
 
 pub fn org_school_unit_data_decoder() {
@@ -1575,17 +1642,18 @@ pub fn org_school_unit_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(OrgSchoolUnitData(
-    school_unit_code: school_unit_code,
-    type_: type_,
-  ))
+  decode.success(
+    OrgSchoolUnitData(school_unit_code: school_unit_code, type_: type_),
+  )
 }
 
 pub fn org_school_unit_data_encode(data: OrgSchoolUnitData) {
-  json.object([
-    #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn code_school_unit_status_decoder() {
@@ -1616,11 +1684,13 @@ pub fn contract_info_response_decoder() {
 }
 
 pub fn contract_info_response_encode(data: ContractInfoResponse) {
-  json.object([
-    #("data", json.nullable(data.data, contract_info_response_data_encode)),
-    #("links", json.nullable(data.links, link_encode)),
-    #("meta", json.nullable(data.meta, meta_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, contract_info_response_data_encode)),
+      #("links", json.nullable(data.links, link_encode)),
+      #("meta", json.nullable(data.meta, meta_encode))
+    ],
+  )
 }
 
 pub fn code_orientation_type_decoder() {
@@ -1647,19 +1717,19 @@ pub fn meta_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(Meta(
-    created: created,
-    extract_date: extract_date,
-    modified: modified,
-  ))
+  decode.success(
+    Meta(created: created, extract_date: extract_date, modified: modified),
+  )
 }
 
 pub fn meta_encode(data: Meta) {
-  json.object([
-    #("created", json.nullable(data.created, json.string)),
-    #("extractDate", json.nullable(data.extract_date, json.string)),
-    #("modified", json.nullable(data.modified, json.string)),
-  ])
+  json.object(
+    [
+      #("created", json.nullable(data.created, json.string)),
+      #("extractDate", json.nullable(data.extract_date, json.string)),
+      #("modified", json.nullable(data.modified, json.string))
+    ],
+  )
 }
 
 pub fn sp_decoder() {
@@ -1672,9 +1742,9 @@ pub fn sp_decoder() {
 }
 
 pub fn sp_encode(data: Sp) {
-  json.object([
-    #("grades", json.nullable(data.grades, json.array(_, json.string))),
-  ])
+  json.object(
+    [#("grades", json.nullable(data.grades, json.array(_, json.string)))],
+  )
 }
 
 pub fn school_unit_address_decoder() {
@@ -1718,32 +1788,36 @@ pub fn school_unit_address_decoder() {
     None,
     decode.optional(address_type_enum_decoder()),
   )
-  decode.success(SchoolUnitAddress(
-    care_of_address: care_of_address,
-    continent: continent,
-    country: country,
-    geo_coordinates: geo_coordinates,
-    locality: locality,
-    postal_code: postal_code,
-    street_address: street_address,
-    type_: type_,
-  ))
+  decode.success(
+    SchoolUnitAddress(
+      care_of_address: care_of_address,
+      continent: continent,
+      country: country,
+      geo_coordinates: geo_coordinates,
+      locality: locality,
+      postal_code: postal_code,
+      street_address: street_address,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn school_unit_address_encode(data: SchoolUnitAddress) {
-  json.object([
-    #("careOfAddress", json.nullable(data.care_of_address, json.string)),
-    #("continent", json.nullable(data.continent, json.string)),
-    #("country", json.nullable(data.country, json.string)),
-    #(
-      "geoCoordinates",
-      json.nullable(data.geo_coordinates, geo_coordinates_encode),
-    ),
-    #("locality", json.nullable(data.locality, json.string)),
-    #("postalCode", json.nullable(data.postal_code, json.string)),
-    #("streetAddress", json.nullable(data.street_address, json.string)),
-    #("type", json.nullable(data.type_, address_type_enum_encode)),
-  ])
+  json.object(
+    [
+      #("careOfAddress", json.nullable(data.care_of_address, json.string)),
+      #("continent", json.nullable(data.continent, json.string)),
+      #("country", json.nullable(data.country, json.string)),
+      #(
+        "geoCoordinates",
+        json.nullable(data.geo_coordinates, geo_coordinates_encode),
+      ),
+      #("locality", json.nullable(data.locality, json.string)),
+      #("postalCode", json.nullable(data.postal_code, json.string)),
+      #("streetAddress", json.nullable(data.street_address, json.string)),
+      #("type", json.nullable(data.type_, address_type_enum_encode))
+    ],
+  )
 }
 
 pub fn organizer_info_response_data_decoder() {
@@ -1767,30 +1841,34 @@ pub fn organizer_info_response_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(OrganizerInfoResponseData(
-    attributes: attributes,
-    organization_number: organization_number,
-    relationships: relationships,
-    type_: type_,
-  ))
+  decode.success(
+    OrganizerInfoResponseData(
+      attributes: attributes,
+      organization_number: organization_number,
+      relationships: relationships,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn organizer_info_response_data_encode(data: OrganizerInfoResponseData) {
-  json.object([
-    #("attributes", json.nullable(data.attributes, organizer_info_encode)),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-    #(
-      "relationships",
-      json.nullable(
-        data.relationships,
-        organizer_info_response_data_relationships_encode,
+  json.object(
+    [
+      #("attributes", json.nullable(data.attributes, organizer_info_encode)),
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
       ),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+      #(
+        "relationships",
+        json.nullable(
+          data.relationships,
+          organizer_info_response_data_relationships_encode,
+        ),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn geo_coordinates_decoder() {
@@ -1814,35 +1892,35 @@ pub fn geo_coordinates_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(GeoCoordinates(
-    coordinate_swe_ref_e: coordinate_swe_ref_e,
-    coordinate_swe_ref_n: coordinate_swe_ref_n,
-    latitude: latitude,
-    longitude: longitude,
-  ))
+  decode.success(
+    GeoCoordinates(
+      coordinate_swe_ref_e: coordinate_swe_ref_e,
+      coordinate_swe_ref_n: coordinate_swe_ref_n,
+      latitude: latitude,
+      longitude: longitude,
+    ),
+  )
 }
 
 pub fn geo_coordinates_encode(data: GeoCoordinates) {
-  json.object([
-    #(
-      "coordinateSweRefE",
-      json.nullable(data.coordinate_swe_ref_e, json.string),
-    ),
-    #(
-      "coordinateSweRefN",
-      json.nullable(data.coordinate_swe_ref_n, json.string),
-    ),
-    #("latitude", json.nullable(data.latitude, json.string)),
-    #("longitude", json.nullable(data.longitude, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "coordinateSweRefE",
+        json.nullable(data.coordinate_swe_ref_e, json.string),
+      ),
+      #(
+        "coordinateSweRefN",
+        json.nullable(data.coordinate_swe_ref_n, json.string),
+      ),
+      #("latitude", json.nullable(data.latitude, json.string)),
+      #("longitude", json.nullable(data.longitude, json.string))
+    ],
+  )
 }
 
 pub fn link_decoder() {
-  use href <- decode.optional_field(
-    "href",
-    None,
-    decode.optional(decode.string),
-  )
+  use href <- decode.optional_field("href", None, decode.optional(decode.string))
   use method_ <- decode.optional_field(
     "method",
     None,
@@ -1853,11 +1931,13 @@ pub fn link_decoder() {
 }
 
 pub fn link_encode(data: Link) {
-  json.object([
-    #("href", json.nullable(data.href, json.string)),
-    #("method", json.nullable(data.method_, json.string)),
-    #("rel", json.nullable(data.rel, json.string)),
-  ])
+  json.object(
+    [
+      #("href", json.nullable(data.href, json.string)),
+      #("method", json.nullable(data.method_, json.string)),
+      #("rel", json.nullable(data.rel, json.string))
+    ],
+  )
 }
 
 pub fn sam_decoder() {
@@ -1870,9 +1950,9 @@ pub fn sam_decoder() {
 }
 
 pub fn sam_encode(data: Sam) {
-  json.object([
-    #("grades", json.nullable(data.grades, json.array(_, json.string))),
-  ])
+  json.object(
+    [#("grades", json.nullable(data.grades, json.array(_, json.string)))],
+  )
 }
 
 pub fn code_school_unit_type_decoder() {
@@ -1899,25 +1979,29 @@ pub fn organizer_decoder() {
     None,
     decode.optional(code_organizer_type_decoder()),
   )
-  decode.success(Organizer(
-    display_name: display_name,
-    organization_number: organization_number,
-    organizer_type: organizer_type,
-  ))
+  decode.success(
+    Organizer(
+      display_name: display_name,
+      organization_number: organization_number,
+      organizer_type: organizer_type,
+    ),
+  )
 }
 
 pub fn organizer_encode(data: Organizer) {
-  json.object([
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-    #(
-      "organizerType",
-      json.nullable(data.organizer_type, code_organizer_type_encode),
-    ),
-  ])
+  json.object(
+    [
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
+      ),
+      #(
+        "organizerType",
+        json.nullable(data.organizer_type, code_organizer_type_encode),
+      )
+    ],
+  )
 }
 
 pub fn education_provider_info_decoder() {
@@ -1971,53 +2055,59 @@ pub fn education_provider_info_decoder() {
     None,
     decode.optional(decode.list(code_school_type_part_vux_decoder())),
   )
-  decode.success(EducationProviderInfo(
-    address: address,
-    company_form: company_form,
-    display_name: display_name,
-    email: email,
-    folk_highschool_name: folk_highschool_name,
-    grading_rights: grading_rights,
-    grading_rights_from: grading_rights_from,
-    grading_rights_to: grading_rights_to,
-    phone_number: phone_number,
-    school_type_parts: school_type_parts,
-  ))
+  decode.success(
+    EducationProviderInfo(
+      address: address,
+      company_form: company_form,
+      display_name: display_name,
+      email: email,
+      folk_highschool_name: folk_highschool_name,
+      grading_rights: grading_rights,
+      grading_rights_from: grading_rights_from,
+      grading_rights_to: grading_rights_to,
+      phone_number: phone_number,
+      school_type_parts: school_type_parts,
+    ),
+  )
 }
 
 pub fn education_provider_info_encode(data: EducationProviderInfo) {
-  json.object([
-    #("address", json.nullable(data.address, education_provider_address_encode)),
-    #("companyForm", json.nullable(data.company_form, company_form_encode)),
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #("email", json.nullable(data.email, json.array(_, email_info_encode))),
-    #(
-      "folkHighschoolName",
-      json.nullable(data.folk_highschool_name, json.string),
-    ),
-    #("gradingRights", json.nullable(data.grading_rights, json.bool)),
-    #("gradingRightsFrom", json.nullable(data.grading_rights_from, json.string)),
-    #("gradingRightsTo", json.nullable(data.grading_rights_to, json.string)),
-    #(
-      "phoneNumber",
-      json.nullable(data.phone_number, json.array(_, phone_info_encode)),
-    ),
-    #(
-      "schoolTypeParts",
-      json.nullable(data.school_type_parts, json.array(
-        _,
-        code_school_type_part_vux_encode,
-      )),
-    ),
-  ])
+  json.object(
+    [
+      #(
+        "address",
+        json.nullable(data.address, education_provider_address_encode),
+      ),
+      #("companyForm", json.nullable(data.company_form, company_form_encode)),
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #("email", json.nullable(data.email, json.array(_, email_info_encode))),
+      #(
+        "folkHighschoolName",
+        json.nullable(data.folk_highschool_name, json.string),
+      ),
+      #("gradingRights", json.nullable(data.grading_rights, json.bool)),
+      #(
+        "gradingRightsFrom",
+        json.nullable(data.grading_rights_from, json.string),
+      ),
+      #("gradingRightsTo", json.nullable(data.grading_rights_to, json.string)),
+      #(
+        "phoneNumber",
+        json.nullable(data.phone_number, json.array(_, phone_info_encode)),
+      ),
+      #(
+        "schoolTypeParts",
+        json.nullable(
+          data.school_type_parts,
+          json.array(_, code_school_type_part_vux_encode),
+        ),
+      )
+    ],
+  )
 }
 
 pub fn school_unit_decoder() {
-  use name <- decode.optional_field(
-    "name",
-    None,
-    decode.optional(decode.string),
-  )
+  use name <- decode.optional_field("name", None, decode.optional(decode.string))
   use school_unit_code <- decode.optional_field(
     "schoolUnitCode",
     None,
@@ -2028,19 +2118,19 @@ pub fn school_unit_decoder() {
     None,
     decode.optional(code_school_unit_status_decoder()),
   )
-  decode.success(SchoolUnit(
-    name: name,
-    school_unit_code: school_unit_code,
-    status: status,
-  ))
+  decode.success(
+    SchoolUnit(name: name, school_unit_code: school_unit_code, status: status),
+  )
 }
 
 pub fn school_unit_encode(data: SchoolUnit) {
-  json.object([
-    #("name", json.nullable(data.name, json.string)),
-    #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
-    #("status", json.nullable(data.status, code_school_unit_status_encode)),
-  ])
+  json.object(
+    [
+      #("name", json.nullable(data.name, json.string)),
+      #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
+      #("status", json.nullable(data.status, code_school_unit_status_encode))
+    ],
+  )
 }
 
 pub fn school_unit_info_response_decoder() {
@@ -2064,21 +2154,25 @@ pub fn school_unit_info_response_decoder() {
     None,
     decode.optional(meta_decoder()),
   )
-  decode.success(SchoolUnitInfoResponse(
-    data: data,
-    included: included,
-    links: links,
-    meta: meta,
-  ))
+  decode.success(
+    SchoolUnitInfoResponse(
+      data: data,
+      included: included,
+      links: links,
+      meta: meta,
+    ),
+  )
 }
 
 pub fn school_unit_info_response_encode(data: SchoolUnitInfoResponse) {
-  json.object([
-    #("data", json.nullable(data.data, school_unit_info_response_data_encode)),
-    #("included", json.nullable(data.included, organizer_included_encode)),
-    #("links", json.nullable(data.links, link_encode)),
-    #("meta", json.nullable(data.meta, meta_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, school_unit_info_response_data_encode)),
+      #("included", json.nullable(data.included, organizer_included_encode)),
+      #("links", json.nullable(data.links, link_encode)),
+      #("meta", json.nullable(data.meta, meta_encode))
+    ],
+  )
 }
 
 pub fn contract_info_decoder() {
@@ -2112,48 +2206,48 @@ pub fn contract_info_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(ContractInfo(
-    education_provider_name: education_provider_name,
-    education_provider_organization_number: education_provider_organization_number,
-    folk_highschool_name: folk_highschool_name,
-    organizer_name: organizer_name,
-    school_type_parts: school_type_parts,
-    status: status,
-  ))
+  decode.success(
+    ContractInfo(
+      education_provider_name: education_provider_name,
+      education_provider_organization_number: education_provider_organization_number,
+      folk_highschool_name: folk_highschool_name,
+      organizer_name: organizer_name,
+      school_type_parts: school_type_parts,
+      status: status,
+    ),
+  )
 }
 
 pub fn contract_info_encode(data: ContractInfo) {
-  json.object([
-    #(
-      "educationProviderName",
-      json.nullable(data.education_provider_name, json.string),
-    ),
-    #(
-      "educationProviderOrganizationNumber",
-      json.nullable(data.education_provider_organization_number, json.string),
-    ),
-    #(
-      "folkHighschoolName",
-      json.nullable(data.folk_highschool_name, json.string),
-    ),
-    #("organizerName", json.nullable(data.organizer_name, json.string)),
-    #(
-      "schoolTypeParts",
-      json.nullable(data.school_type_parts, json.array(
-        _,
-        school_type_part_info_encode,
-      )),
-    ),
-    #("status", json.nullable(data.status, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "educationProviderName",
+        json.nullable(data.education_provider_name, json.string),
+      ),
+      #(
+        "educationProviderOrganizationNumber",
+        json.nullable(data.education_provider_organization_number, json.string),
+      ),
+      #(
+        "folkHighschoolName",
+        json.nullable(data.folk_highschool_name, json.string),
+      ),
+      #("organizerName", json.nullable(data.organizer_name, json.string)),
+      #(
+        "schoolTypeParts",
+        json.nullable(
+          data.school_type_parts,
+          json.array(_, school_type_part_info_encode),
+        ),
+      ),
+      #("status", json.nullable(data.status, json.string))
+    ],
+  )
 }
 
 pub fn company_form_decoder() {
-  use code <- decode.optional_field(
-    "code",
-    None,
-    decode.optional(decode.string),
-  )
+  use code <- decode.optional_field("code", None, decode.optional(decode.string))
   use display_name <- decode.optional_field(
     "displayName",
     None,
@@ -2163,10 +2257,12 @@ pub fn company_form_decoder() {
 }
 
 pub fn company_form_encode(data: CompanyForm) {
-  json.object([
-    #("code", json.nullable(data.code, json.string)),
-    #("displayName", json.nullable(data.display_name, json.string)),
-  ])
+  json.object(
+    [
+      #("code", json.nullable(data.code, json.string)),
+      #("displayName", json.nullable(data.display_name, json.string))
+    ],
+  )
 }
 
 pub fn education_provider_info_response_data_decoder() {
@@ -2192,35 +2288,39 @@ pub fn education_provider_info_response_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(EducationProviderInfoResponseData(
-    attributes: attributes,
-    education_provider_code: education_provider_code,
-    relationships: relationships,
-    type_: type_,
-  ))
+  decode.success(
+    EducationProviderInfoResponseData(
+      attributes: attributes,
+      education_provider_code: education_provider_code,
+      relationships: relationships,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn education_provider_info_response_data_encode(
   data: EducationProviderInfoResponseData,
 ) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, education_provider_info_encode),
-    ),
-    #(
-      "educationProviderCode",
-      json.nullable(data.education_provider_code, json.string),
-    ),
-    #(
-      "relationships",
-      json.nullable(
-        data.relationships,
-        education_provider_info_response_data_relationships_encode,
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, education_provider_info_encode),
       ),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+      #(
+        "educationProviderCode",
+        json.nullable(data.education_provider_code, json.string),
+      ),
+      #(
+        "relationships",
+        json.nullable(
+          data.relationships,
+          education_provider_info_response_data_relationships_encode,
+        ),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn school_unit_links_decoder() {
@@ -2235,15 +2335,17 @@ pub fn school_unit_links_decoder() {
 }
 
 pub fn school_unit_links_encode(data: SchoolUnitLinks) {
-  json.object([
-    #(
-      "related",
-      json.nullable(
-        data.related,
-        json.array(_, fn(_) { panic as "object in array" }),
-      ),
-    ),
-  ])
+  json.object(
+    [
+      #(
+        "related",
+        json.nullable(
+          data.related,
+          json.array(_, fn(_) { panic as "object in array" }),
+        ),
+      )
+    ],
+  )
 }
 
 pub fn contract_info_response_data_decoder() {
@@ -2272,35 +2374,39 @@ pub fn contract_info_response_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(ContractInfoResponseData(
-    attributes: attributes,
-    education_provider_code: education_provider_code,
-    organization_number: organization_number,
-    relationships: relationships,
-    type_: type_,
-  ))
+  decode.success(
+    ContractInfoResponseData(
+      attributes: attributes,
+      education_provider_code: education_provider_code,
+      organization_number: organization_number,
+      relationships: relationships,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn contract_info_response_data_encode(data: ContractInfoResponseData) {
-  json.object([
-    #("attributes", json.nullable(data.attributes, contract_info_encode)),
-    #(
-      "educationProviderCode",
-      json.nullable(data.education_provider_code, json.string),
-    ),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-    #(
-      "relationships",
-      json.nullable(
-        data.relationships,
-        contract_info_response_data_relationships_encode,
+  json.object(
+    [
+      #("attributes", json.nullable(data.attributes, contract_info_encode)),
+      #(
+        "educationProviderCode",
+        json.nullable(data.education_provider_code, json.string),
       ),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
+      ),
+      #(
+        "relationships",
+        json.nullable(
+          data.relationships,
+          contract_info_response_data_relationships_encode,
+        ),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn school_unit_response_decoder() {
@@ -2318,10 +2424,12 @@ pub fn school_unit_response_decoder() {
 }
 
 pub fn school_unit_response_encode(data: SchoolUnitResponse) {
-  json.object([
-    #("data", json.nullable(data.data, school_unit_response_data_encode)),
-    #("meta", json.nullable(data.meta, meta_extracted_encode)),
-  ])
+  json.object(
+    [
+      #("data", json.nullable(data.data, school_unit_response_data_encode)),
+      #("meta", json.nullable(data.meta, meta_extracted_encode))
+    ],
+  )
 }
 
 pub fn email_info_decoder() {
@@ -2339,13 +2447,15 @@ pub fn email_info_decoder() {
 }
 
 pub fn email_info_encode(data: EmailInfo) {
-  json.object([
-    #("email", json.nullable(data.email, json.string)),
-    #(
-      "providerType",
-      json.nullable(data.provider_type, code_provider_type_encode),
-    ),
-  ])
+  json.object(
+    [
+      #("email", json.nullable(data.email, json.string)),
+      #(
+        "providerType",
+        json.nullable(data.provider_type, code_provider_type_encode),
+      )
+    ],
+  )
 }
 
 pub fn vux_decoder() {
@@ -2358,15 +2468,17 @@ pub fn vux_decoder() {
 }
 
 pub fn vux_encode(data: Vux) {
-  json.object([
-    #(
-      "schoolTypeParts",
-      json.nullable(data.school_type_parts, json.array(
-        _,
-        code_school_type_part_vux_encode,
-      )),
-    ),
-  ])
+  json.object(
+    [
+      #(
+        "schoolTypeParts",
+        json.nullable(
+          data.school_type_parts,
+          json.array(_, code_school_type_part_vux_encode),
+        ),
+      )
+    ],
+  )
 }
 
 pub fn education_provider_address_decoder() {
@@ -2395,23 +2507,27 @@ pub fn education_provider_address_decoder() {
     None,
     decode.optional(address_type_enum_decoder()),
   )
-  decode.success(EducationProviderAddress(
-    care_of_address: care_of_address,
-    locality: locality,
-    postal_code: postal_code,
-    street_address: street_address,
-    type_: type_,
-  ))
+  decode.success(
+    EducationProviderAddress(
+      care_of_address: care_of_address,
+      locality: locality,
+      postal_code: postal_code,
+      street_address: street_address,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn education_provider_address_encode(data: EducationProviderAddress) {
-  json.object([
-    #("careOfAddress", json.nullable(data.care_of_address, json.string)),
-    #("locality", json.nullable(data.locality, json.string)),
-    #("postalCode", json.nullable(data.postal_code, json.string)),
-    #("streetAddress", json.nullable(data.street_address, json.string)),
-    #("type", json.nullable(data.type_, address_type_enum_encode)),
-  ])
+  json.object(
+    [
+      #("careOfAddress", json.nullable(data.care_of_address, json.string)),
+      #("locality", json.nullable(data.locality, json.string)),
+      #("postalCode", json.nullable(data.postal_code, json.string)),
+      #("streetAddress", json.nullable(data.street_address, json.string)),
+      #("type", json.nullable(data.type_, address_type_enum_encode))
+    ],
+  )
 }
 
 pub fn school_unit_info_decoder() {
@@ -2506,75 +2622,79 @@ pub fn school_unit_info_decoder() {
     decode.optional(code_school_unit_status_decoder()),
   )
   use url <- decode.optional_field("url", None, decode.optional(decode.string))
-  decode.success(SchoolUnitInfo(
-    addresses: addresses,
-    display_name: display_name,
-    email: email,
-    end_date: end_date,
-    head_master: head_master,
-    hospital_school: hospital_school,
-    municipality_code: municipality_code,
-    orientation_type: orientation_type,
-    phone_number: phone_number,
-    reports_personell: reports_personell,
-    reports_students: reports_students,
-    school_name: school_name,
-    school_type_properties: school_type_properties,
-    school_types: school_types,
-    school_unit_type: school_unit_type,
-    special_support_school: special_support_school,
-    startdate: startdate,
-    status: status,
-    url: url,
-  ))
+  decode.success(
+    SchoolUnitInfo(
+      addresses: addresses,
+      display_name: display_name,
+      email: email,
+      end_date: end_date,
+      head_master: head_master,
+      hospital_school: hospital_school,
+      municipality_code: municipality_code,
+      orientation_type: orientation_type,
+      phone_number: phone_number,
+      reports_personell: reports_personell,
+      reports_students: reports_students,
+      school_name: school_name,
+      school_type_properties: school_type_properties,
+      school_types: school_types,
+      school_unit_type: school_unit_type,
+      special_support_school: special_support_school,
+      startdate: startdate,
+      status: status,
+      url: url,
+    ),
+  )
 }
 
 pub fn school_unit_info_encode(data: SchoolUnitInfo) {
-  json.object([
-    #(
-      "addresses",
-      json.nullable(data.addresses, json.array(_, school_unit_address_encode)),
-    ),
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #("email", json.nullable(data.email, json.string)),
-    #("endDate", json.nullable(data.end_date, json.string)),
-    #("headMaster", json.nullable(data.head_master, json.string)),
-    #("hospitalSchool", json.nullable(data.hospital_school, json.bool)),
-    #("municipalityCode", json.nullable(data.municipality_code, json.string)),
-    #(
-      "orientationType",
-      json.nullable(data.orientation_type, code_orientation_type_encode),
-    ),
-    #("phoneNumber", json.nullable(data.phone_number, json.string)),
-    #(
-      "reportsPersonell",
-      json.nullable(data.reports_personell, code_report_type_encode),
-    ),
-    #(
-      "reportsStudents",
-      json.nullable(data.reports_students, code_report_type_encode),
-    ),
-    #("schoolName", json.nullable(data.school_name, json.string)),
-    #(
-      "schoolTypeProperties",
-      json.nullable(data.school_type_properties, school_type_properties_encode),
-    ),
-    #(
-      "schoolTypes",
-      json.nullable(data.school_types, json.array(_, code_school_type_encode)),
-    ),
-    #(
-      "schoolUnitType",
-      json.nullable(data.school_unit_type, code_school_unit_type_encode),
-    ),
-    #(
-      "specialSupportSchool",
-      json.nullable(data.special_support_school, json.bool),
-    ),
-    #("startdate", json.nullable(data.startdate, json.string)),
-    #("status", json.nullable(data.status, code_school_unit_status_encode)),
-    #("url", json.nullable(data.url, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "addresses",
+        json.nullable(data.addresses, json.array(_, school_unit_address_encode)),
+      ),
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #("email", json.nullable(data.email, json.string)),
+      #("endDate", json.nullable(data.end_date, json.string)),
+      #("headMaster", json.nullable(data.head_master, json.string)),
+      #("hospitalSchool", json.nullable(data.hospital_school, json.bool)),
+      #("municipalityCode", json.nullable(data.municipality_code, json.string)),
+      #(
+        "orientationType",
+        json.nullable(data.orientation_type, code_orientation_type_encode),
+      ),
+      #("phoneNumber", json.nullable(data.phone_number, json.string)),
+      #(
+        "reportsPersonell",
+        json.nullable(data.reports_personell, code_report_type_encode),
+      ),
+      #(
+        "reportsStudents",
+        json.nullable(data.reports_students, code_report_type_encode),
+      ),
+      #("schoolName", json.nullable(data.school_name, json.string)),
+      #(
+        "schoolTypeProperties",
+        json.nullable(data.school_type_properties, school_type_properties_encode),
+      ),
+      #(
+        "schoolTypes",
+        json.nullable(data.school_types, json.array(_, code_school_type_encode)),
+      ),
+      #(
+        "schoolUnitType",
+        json.nullable(data.school_unit_type, code_school_unit_type_encode),
+      ),
+      #(
+        "specialSupportSchool",
+        json.nullable(data.special_support_school, json.bool),
+      ),
+      #("startdate", json.nullable(data.startdate, json.string)),
+      #("status", json.nullable(data.status, code_school_unit_status_encode)),
+      #("url", json.nullable(data.url, json.string))
+    ],
+  )
 }
 
 pub fn code_company_status_decoder() {
@@ -2586,11 +2706,7 @@ pub fn code_company_status_encode(data: CodeCompanyStatus) {
 }
 
 pub fn link_with_related_links_decoder() {
-  use href <- decode.optional_field(
-    "href",
-    None,
-    decode.optional(decode.string),
-  )
+  use href <- decode.optional_field("href", None, decode.optional(decode.string))
   use method_ <- decode.optional_field(
     "method",
     None,
@@ -2602,21 +2718,25 @@ pub fn link_with_related_links_decoder() {
     None,
     decode.optional(decode.list(link_decoder())),
   )
-  decode.success(LinkWithRelatedLinks(
-    href: href,
-    method_: method_,
-    rel: rel,
-    related: related,
-  ))
+  decode.success(
+    LinkWithRelatedLinks(
+      href: href,
+      method_: method_,
+      rel: rel,
+      related: related,
+    ),
+  )
 }
 
 pub fn link_with_related_links_encode(data: LinkWithRelatedLinks) {
-  json.object([
-    #("href", json.nullable(data.href, json.string)),
-    #("method", json.nullable(data.method_, json.string)),
-    #("rel", json.nullable(data.rel, json.string)),
-    #("related", json.nullable(data.related, json.array(_, link_encode))),
-  ])
+  json.object(
+    [
+      #("href", json.nullable(data.href, json.string)),
+      #("method", json.nullable(data.method_, json.string)),
+      #("rel", json.nullable(data.rel, json.string)),
+      #("related", json.nullable(data.related, json.array(_, link_encode)))
+    ],
+  )
 }
 
 pub fn code_provider_type_decoder() {
@@ -2642,13 +2762,15 @@ pub fn school_unit_relation_decoder() {
 }
 
 pub fn school_unit_relation_encode(data: SchoolUnitRelation) {
-  json.object([
-    #(
-      "data",
-      json.nullable(data.data, json.array(_, org_school_unit_data_encode)),
-    ),
-    #("links", json.nullable(data.links, school_unit_links_encode)),
-  ])
+  json.object(
+    [
+      #(
+        "data",
+        json.nullable(data.data, json.array(_, org_school_unit_data_encode)),
+      ),
+      #("links", json.nullable(data.links, school_unit_links_encode))
+    ],
+  )
 }
 
 pub fn organizer_included_attributes_decoder() {
@@ -2662,20 +2784,24 @@ pub fn organizer_included_attributes_decoder() {
     None,
     decode.optional(code_organizer_type_decoder()),
   )
-  decode.success(OrganizerIncludedAttributes(
-    display_name: display_name,
-    organizer_type: organizer_type,
-  ))
+  decode.success(
+    OrganizerIncludedAttributes(
+      display_name: display_name,
+      organizer_type: organizer_type,
+    ),
+  )
 }
 
 pub fn organizer_included_attributes_encode(data: OrganizerIncludedAttributes) {
-  json.object([
-    #("displayName", json.nullable(data.display_name, json.string)),
-    #(
-      "organizerType",
-      json.nullable(data.organizer_type, code_organizer_type_encode),
-    ),
-  ])
+  json.object(
+    [
+      #("displayName", json.nullable(data.display_name, json.string)),
+      #(
+        "organizerType",
+        json.nullable(data.organizer_type, code_organizer_type_encode),
+      )
+    ],
+  )
 }
 
 pub fn org_school_unit_relation_decoder() {
@@ -2693,13 +2819,15 @@ pub fn org_school_unit_relation_decoder() {
 }
 
 pub fn org_school_unit_relation_encode(data: OrgSchoolUnitRelation) {
-  json.object([
-    #(
-      "data",
-      json.nullable(data.data, json.array(_, org_school_unit_data_encode)),
-    ),
-    #("links", json.nullable(data.links, link_with_related_links_encode)),
-  ])
+  json.object(
+    [
+      #(
+        "data",
+        json.nullable(data.data, json.array(_, org_school_unit_data_encode)),
+      ),
+      #("links", json.nullable(data.links, link_with_related_links_encode))
+    ],
+  )
 }
 
 pub fn organizer_response_data_decoder() {
@@ -2717,13 +2845,15 @@ pub fn organizer_response_data_decoder() {
 }
 
 pub fn organizer_response_data_encode(data: OrganizerResponseData) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, json.array(_, organizer_encode)),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, json.array(_, organizer_encode)),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn school_unit_info_response_data_decoder() {
@@ -2742,19 +2872,23 @@ pub fn school_unit_info_response_data_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(SchoolUnitInfoResponseData(
-    attributes: attributes,
-    school_unit_code: school_unit_code,
-    type_: type_,
-  ))
+  decode.success(
+    SchoolUnitInfoResponseData(
+      attributes: attributes,
+      school_unit_code: school_unit_code,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn school_unit_info_response_data_encode(data: SchoolUnitInfoResponseData) {
-  json.object([
-    #("attributes", json.nullable(data.attributes, school_unit_info_encode)),
-    #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #("attributes", json.nullable(data.attributes, school_unit_info_encode)),
+      #("schoolUnitCode", json.nullable(data.school_unit_code, json.string)),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
 
 pub fn organizer_included_decoder() {
@@ -2778,25 +2912,29 @@ pub fn organizer_included_decoder() {
     None,
     decode.optional(decode.string),
   )
-  decode.success(OrganizerIncluded(
-    attributes: attributes,
-    links: links,
-    organization_number: organization_number,
-    type_: type_,
-  ))
+  decode.success(
+    OrganizerIncluded(
+      attributes: attributes,
+      links: links,
+      organization_number: organization_number,
+      type_: type_,
+    ),
+  )
 }
 
 pub fn organizer_included_encode(data: OrganizerIncluded) {
-  json.object([
-    #(
-      "attributes",
-      json.nullable(data.attributes, organizer_included_attributes_encode),
-    ),
-    #("links", json.nullable(data.links, link_encode)),
-    #(
-      "organizationNumber",
-      json.nullable(data.organization_number, json.string),
-    ),
-    #("type", json.nullable(data.type_, json.string)),
-  ])
+  json.object(
+    [
+      #(
+        "attributes",
+        json.nullable(data.attributes, organizer_included_attributes_encode),
+      ),
+      #("links", json.nullable(data.links, link_encode)),
+      #(
+        "organizationNumber",
+        json.nullable(data.organization_number, json.string),
+      ),
+      #("type", json.nullable(data.type_, json.string))
+    ],
+  )
 }
